@@ -1,21 +1,23 @@
 import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
+import cors from "cors";
 import connectDB from "./config/db.js";
-import healthRoutes from "./routes/health.route.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
+
+connectDB();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// connect database
-connectDB();
+app.use("/api/auth", authRoutes);
 
-// health route
-app.use("/api", healthRoutes);
+app.get("/api/health", (req, res) => {
+  res.json({ message: "API is working" });
+});
 
 const PORT = process.env.PORT || 5000;
 
