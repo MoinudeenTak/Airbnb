@@ -4,13 +4,16 @@ import { getMe } from "../services/authServices";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser]       = useState(null);
-  const [loading, setLoading] = useState(true);   // prevents flash on refresh
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // prevents flash on refresh
 
   // On mount: rehydrate user from stored token
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) { setLoading(false); return; }
+    if (!token) {
+      setLoading(false);
+      return;
+    }
 
     getMe()
       .then(({ data }) => setUser(data))
